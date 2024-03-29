@@ -1,48 +1,71 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 100
+#define MAX_SIZE 100
 
-double x[MAX], y[MAX][MAX];
-
-void newton_interpolation(int n) {
-    for (int i = 1; i < n; i++) {
-        for (int j = n-1; j >= i; j--) {
-            y[j][i] = (y[j][i-1] - y[j-1][i-1]) / (x[j] - x[j-i]);
-        }
+double
+divided_diff (double *x, double *y, int n)
+{
+  if (n == 1)
+    {
+      return (y[1] - y[0]) / (x[1] - x[0]);
+    }
+  else
+    {
+      return (divided_diff (x + 1, y + 1, n - 1) - divided_diff (x, y, n - 1))
+             / (x[n] - x[0]);
     }
 }
 
-double newton_polynomial(double val, int n) {
-    double sum = y[n-1][n-1];
-    double prod = 1;
-
-    for (int i = n-2; i >= 0; i--) {
-        prod *= (val - x[i]);
-        sum += (prod * y[i][i]);
+double
+newton_interpolation (double *x, double *y, int n, double x_value)
+{
+  double result = y[0];
+  double term = 1;
+  for (int i = 1; i < n; i++)
+    {
+      term *= (x_value - x[i - 1]);
+      result += divided_diff (x, y, i) * term;
     }
-
-    return sum;
+  return result;
 }
 
-int main() {
-    FILE *file = fopen("in.txt", "r");
+int
+main ()
+{
+    FILE *file;
+    double x[5], y[5];
+    int n = 5;
+
+    file = fopen("in.txt", "r");
     if (file == NULL) {
-        printf("Не удалось открыть файл.\n");
+        printf("Ошибка при открытии файла.\n");
         return 1;
     }
 
-    int n = 0;
-    while (fscanf(file, "%lf %lf", &x[n], &y[n][0]) != EOF) {
-        n++;
+    for (int i = 0; i < n; i++) {
+        fscanf(file, "%lf", &x[i]);
+    }
+    for (int i = 0; i < n; i++) {
+        fscanf(file, "%lf", &y[i]);
     }
 
     fclose(file);
 
-    newton_interpolation(n);
+    for (int i = 0; i < n; i++) {
+        printf("%.2lf ", x[i]);
+    }
+    printf("\n");
 
-    double val = 1.0;
-    printf("Значение полинома N(1) = %.6lf\n", newton_polynomial(val, n));
+  //   int n = 3;
 
-    return 0;
+  //   double x[] = { 1, 2, 3 };
+  //   double y[] = { 1, 4, 9 };
+
+  double x_value = 1.0;
+
+  double result = newton_interpolation (x, y, n, x_value);
+  printf ("f(%.1lf) = %.6lf\n", x_value, result);
+
+  return 0;
 }
