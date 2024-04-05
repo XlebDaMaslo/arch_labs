@@ -12,8 +12,7 @@ divided_diff (double *x, double *y, int n)
     }
   else
     {
-      return (divided_diff (x + 1, y + 1, n - 1) - divided_diff (x, y, n - 1))
-             / (x[n] - x[0]);
+      return (divided_diff (x + 1, y + 1, n - 1) - divided_diff (x, y, n - 1)) / (x[n] - x[0]);
     }
 }
 
@@ -33,34 +32,40 @@ newton_interpolation (double *x, double *y, int n, double x_value)
 int
 main ()
 {
-    FILE *file;
-    double x[5], y[5];
-    int n = 5;
+  FILE *file;
+  int n;
+  printf ("Enter the number of points: ");
+  scanf ("%d", &n);
+  double x[n], y[n];
 
-    file = fopen("in.txt", "r");
-    if (file == NULL) {
-        printf("Ошибка при открытии файла.\n");
-        return 1;
+  file = fopen ("in.txt", "r");
+  if (file == NULL)
+    {
+      printf ("Error opening the file.\n");
+      return 1;
     }
 
-    for (int i = 0; i < n; i++) {
-        fscanf(file, "%lf", &x[i]);
+  for (int i = 0; i < n; i++)
+    {
+      fscanf (file, "%lf", &x[i]);
     }
-    for (int i = 0; i < n; i++) {
-        fscanf(file, "%lf", &y[i]);
+  for (int i = 0; i < n; i++)
+    {
+      fscanf (file, "%lf", &y[i]);
     }
 
-    fclose(file);
+  fclose (file);
 
-    for (int i = 0; i < n; i++) {
-        printf("%.2lf ", x[i]);
-    }
-    printf("\n");
-
-  //   int n = 3;
-
-  //   double x[] = { 1, 2, 3 };
-  //   double y[] = { 1, 4, 9 };
+  // for (int i = 0; i < n; i++)
+  //   {
+  //     printf ("%.6lf ", x[i]);
+  //   }
+  //   printf ("\n");
+  // for (int i = 0; i < n; i++)
+  //   {
+  //     printf ("%.6lf ", y[i]);
+  //   }
+  // printf ("\n");
 
   double x_value = 1.0;
 
