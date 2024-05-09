@@ -77,7 +77,7 @@ main()
   }
   printf("\n");
 
-  double x_value = 1.0;
+  double x_value = 3.5;
 
   double result = newton_interpolation(x, y, n, x_value);
   printf("f(%.1lf) = %.6lf\n", x_value, result);
