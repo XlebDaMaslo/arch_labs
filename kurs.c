@@ -76,8 +76,8 @@ int main() {
         fprintf(plotFile, "set terminal png\n");
         fprintf(plotFile, "set output 'plot_%s.png'\n", variables[i]);
         fprintf(plotFile, "set title 'SEIRD Model - %s'\n", variables[i]);
-        fprintf(plotFile, "set xlabel 'Time'\n");
-        fprintf(plotFile, "set ylabel '%s'\n", variables[i]);
+        fprintf(plotFile, "set xlabel 'Время'\n");
+        fprintf(plotFile, "set ylabel 'Выявленные случаи(чел)'\n");
         fprintf(plotFile, "plot 'results.txt' using 1:%d with lines title '%s'\n", i + 2, variables[i]);
         fclose(plotFile);
 
