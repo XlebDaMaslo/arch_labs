@@ -44,7 +44,7 @@ int main() {
     }
     fprintf(fp, "Время\t\tS\t\t\tE\t\tI\t\tR\t\tD\t\tfk\n");
     while (t <= MAX_DAYS) {
-        fk = K * state.E;
+        fk = (K * state.E)/0.58;
         fprintf(fp, "%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", t, state.S, state.E, state.I, state.R, state.D, fk);
 
         double dS = dSdt(state.S, state.E, state.I, state.R, t);
